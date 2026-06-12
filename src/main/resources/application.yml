@@ -13,3 +13,13 @@ management:
           - info
           - metrics
           - prometheus
+
+# Read from env vars injected by OCP
+app:
+  environment: ${APP_ENV:local}
+  mainframe:
+    host: ${MAINFRAME_HOST:localhost}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
