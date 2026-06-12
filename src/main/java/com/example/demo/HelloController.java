@@ -18,7 +18,7 @@ public class HelloController {
         return Mono.just("Hi.... Hello...!!!");
     }
 
-    @GetMapping
+    @GetMapping("/config")
     public Mono<String> config() {
         return Mono.just("Environment: "+environment +
                 " | Mainframe Host: "+mainframeHost);
