@@ -1,7 +1,7 @@
 #====================================
 #   Stage 1: Build
 #====================================
-FROM maven:3.9-eclipse-temurin-21 AS builder
+FROM --platform=linux/amd64 maven:3.9-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN mvn package -DskipTests -B
 #====================================
 #   Stage 2: Runtime
 #====================================
-FROM eclipse-temurin:21-jre-jammy
+FROM --platform=linux/amd64 eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
