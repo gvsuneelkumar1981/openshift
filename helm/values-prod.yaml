@@ -1,0 +1,23 @@
+app:
+  replicas: 3
+  tag: latest
+  team: payments-team
+
+config:
+  logLevel: WARN
+  appEnv: prod
+  mqHost: mq-prod.internal
+  kafkaBootstrapServers: kafka-prod-cluster:9092
+  mainframeHost: mainframe-prod.internal
+
+#vault:
+#  path: order-service/prod
+#  refreshInterval: 30m
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+  limits:
+    memory: 1Gi
+    cpu: 2000m

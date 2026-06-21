@@ -1,0 +1,33 @@
+app:
+  name: order-service
+  image: image-registry.openshift-image-registry.svc:5000/gvsuneelkumar1981-dev/order-service
+  tag: latest
+  port: 8080
+  replicas: 1
+  team: payments-team
+  terminationGracePeriod: 60
+
+config:
+  logLevel: INFO
+  appEnv: dev
+  mqHost: mq.internal
+  kafkaBootstrapServers: kafka:9092
+  mainframeHost: mainframe.internal
+
+#vault:
+#  path: order-service/dev
+#  refreshInterval: 1h
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+health:
+  livenessPath: /actuator/health/liveness
+  readinessPath: /actuator/health/readiness
+  initialDelaySeconds: 60
+  periodSeconds: 10

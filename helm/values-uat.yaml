@@ -1,0 +1,23 @@
+app:
+  replicas: 2
+  tag: latest
+  team: payments-team
+
+config:
+  logLevel: INFO
+  appEnv: uat
+  mqHost: mq-uat.internal
+  kafkaBootstrapServers: kafka-uat:9092
+  mainframeHost: mainframe-uat.internal
+
+#vault:
+#  path: order-service/uat
+#  refreshInterval: 1h
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 1000m

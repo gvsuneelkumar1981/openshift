@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    vault:
+      kv:
+        profiles: uat
+      uri: http://vault:8200

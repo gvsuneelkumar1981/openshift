@@ -1,0 +1,7 @@
+# src/main/resources/application-dev.yml
+spring:
+  cloud:
+    vault:
+      kv:
+        profiles: dev
+      uri: http://vault:8200
