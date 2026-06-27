@@ -10,8 +10,17 @@ config:
   mainframeHost: mainframe-dev.internal
 
 vault:
+  useESO: false
+  deploy: false
+  host: vault                    # vault service name in OCP
+  port: 8200
   path: order-service/dev
+  mountPath: myapp/secret
+  token: myroot                  # dev token
   refreshInterval: 1h
+
+hpa:
+  enabled: false
 
 resources:
   requests:

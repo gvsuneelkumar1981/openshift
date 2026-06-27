@@ -1,0 +1,9 @@
+  # org-base-chart/Chart.yaml
+  apiVersion: v2
+  name: org-base-chart
+  description: |
+    Organization standard base chart.
+    Enforces security, observability
+    and deployment best practices.
+  type: library
+  version: 1.0.0

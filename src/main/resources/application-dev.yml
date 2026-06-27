@@ -4,4 +4,4 @@ spring:
     vault:
       kv:
         profiles: dev
-      uri: http://vault:8200
+      uri: http://127.0.0.1:8200

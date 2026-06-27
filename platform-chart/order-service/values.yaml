@@ -5,6 +5,7 @@ app:
   port: 8080
   replicas: 1
   team: payments-team
+  costCenter: CC-1234
   terminationGracePeriod: 60
 
 config:
@@ -13,10 +14,26 @@ config:
   mqHost: mq.internal
   kafkaBootstrapServers: kafka:9092
   mainframeHost: mainframe.internal
+  sftpHost: sftp.internal
 
-#vault:
-#  path: order-service/dev
-#  refreshInterval: 1h
+# Vault config
+vault:
+  useESO: false              # ESO disabled, using Spring Cloud Vault
+  deploy: false              # Vault not deployed by chart
+  host: vault
+  port: 8200
+  path: order-service/dev
+  mountPath: myapp/secret
+  token: myroot              # dev token
+  refreshInterval: 1h
+
+# HPA disabled by default
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  cpuThreshold: 70
+  memoryThreshold: 80
 
 resources:
   requests:

@@ -1,19 +1,9 @@
 spring:
   application:
     name: order-service
+  config:
+    import: vault://
 
-  cloud:
-    vault:
-      enabled: true
-      uri: http://vault:8200
-      authentication: TOKEN
-      token: ${VAULT_TOKEN}
-      kv:
-        enabled: true
-        backend: myapp/secret
-        application-name: order-service
-#      generic:
-#        enabled: false
 server:
   port: 8080
 
@@ -26,8 +16,24 @@ management:
           - info
           - metrics
           - prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
 
-# Read from env vars injected by OCP
+#datasource:
+#  url: jdbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:orderdb}
+#  username: ${DB_USERNAME:orderuser}
+#  password: ${db_password}
+
+# These come from Vault automatically
+# Spring Cloud Vault injects them as properties
 app:
   environment: ${APP_ENV:local}
   mainframe:
@@ -35,4 +41,9 @@ app:
 
 logging:
   level:
-    root: ${LOG_LEVEL:INFO}
+    root: ${LOG_LEVEL:DEBUG}
+    org.springframework.boot.context.config: TRACE
+    org.springframework.cloud.vault: TRACE
+    org.springframework.vault: TRACE
+  pattern:
+    console: '{"timestamp":"%d","level":"%-5p","service":"${spring.application.name}","message":"%m"}%n'

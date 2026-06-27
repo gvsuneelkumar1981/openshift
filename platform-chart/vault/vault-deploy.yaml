@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault
+  namespace: gvsuneelkumar1981-dev
+  labels:
+    app: vault
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      securityContext:
+        runAsUser: 1014940000
+        runAsGroup: 1014940000
+        fsGroup: 1014940000
+      containers:
+        - name: vault
+          image: docker.io/hashicorp/vault:1.15.0
+          ports:
+            - containerPort: 8200
+          env:
+            - name: VAULT_DEV_ROOT_TOKEN_ID
+              value: myroot
+            - name: VAULT_DEV_LISTEN_ADDRESS
+              value: "0.0.0.0:8200"
+            - name: VAULT_ADDR
+              value: "http://127.0.0.1:8200"
+            - name: SKIP_SETCAP
+              value: "true"
+            - name: HOME
+              value: "/tmp"
+            - name: VAULT_API_ADDR
+              value: "http://0.0.0.0:8200"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 1014940000
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+

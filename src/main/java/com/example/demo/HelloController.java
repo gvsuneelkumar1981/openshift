@@ -10,15 +10,19 @@ public class HelloController {
 
     @Value("${app.environment:local}")
     private String environment;
+
     @Value("${app.mainframe.host:localhost}")
     private String mainframeHost;
 
-    // These come directly from Vault!
-    @Value("${db_password:not-set}")
+    // These come from Vault
+    @Value("${db_password:NOT_LOADED}")
     private String dbPassword;
 
-    @Value("${mq_password:not-set}")
+    @Value("${mq_password:NOT_LOADED}")
     private String mqPassword;
+
+    @Value("${api_key:NOT_LOADED}")
+    private String apiKey;
 
     @GetMapping("/sayHello")
     public Mono<String> sayHello() {
@@ -27,19 +31,26 @@ public class HelloController {
 
     @GetMapping("/config")
     public Mono<String> config() {
-        return Mono.just("Environment: "+environment +
-                " | Mainframe Host: "+mainframeHost);
-    }
-
-    @GetMapping("/vault-test")
-    public Mono<String> vaultTest() {
-        // Shows secrets came from Vault
-        // NEVER expose actual passwords in real app!
         return Mono.just(
-                "DB Password set: " + !dbPassword.equals("not-set") +
-                        " | MQ Password set: " + !mqPassword.equals("not-set")
+                "Environment: " + environment +
+                        " | Mainframe: " + mainframeHost
         );
     }
 
+    // Shows secrets loaded from Vault
+    // REMOVE in production — only for testing!
+    @GetMapping("/vault-test")
+    public Mono<String> vaultTest() {
+        return Mono.just(
+                "DB_PASSWORD: " + maskSecret(dbPassword) +
+                        " | MQ_PASSWORD: " + maskSecret(mqPassword) +
+                        " | API_KEY: " + maskSecret(apiKey)
+        );
+    }
 
+    // Mask secret — show only first 3 chars
+    private String maskSecret(String secret) {
+        if (secret == null || secret.length() < 3) return "***";
+        return secret.substring(0, 3) + "***";
+    }
 }

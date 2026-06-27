@@ -10,9 +10,21 @@ config:
   kafkaBootstrapServers: kafka-prod-cluster:9092
   mainframeHost: mainframe-prod.internal
 
-#vault:
-#  path: order-service/prod
-#  refreshInterval: 30m
+vault:
+  useESO: false
+  deploy: false
+  host: vault
+  port: 8200
+  path: order-service/prod
+  mountPath: myapp/secret
+  token: ${VAULT_PROD_TOKEN}     # injected by pipeline
+  refreshInterval: 30m
+
+hpa:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  cpuThreshold: 60
 
 resources:
   requests:

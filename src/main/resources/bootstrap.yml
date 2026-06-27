@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: order-service
+
+  cloud:
+    vault:
+      enabled: true
+      host: ${VAULT_HOST:localhost} # injected by OCP ConfigMap
+      port: ${VAULT_PORT:8200}
+      scheme: http
+      authentication: TOKEN
+      token: ${VAULT_TOKEN:myroot}   # injected by OCP Secret
+
+      # KV secrets engine config
+      kv:
+        enabled: true
+        backend: myapp/secret
+        default-context: ${VAULT_PATH:order-service/dev}
+
+      #Connection config
+      connection-timeout: 5000
+      read-timeout: 15000
+
+      #Fail fat if Vault unreachable
+      fail-fast: true

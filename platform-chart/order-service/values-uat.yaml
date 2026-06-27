@@ -10,9 +10,21 @@ config:
   kafkaBootstrapServers: kafka-uat:9092
   mainframeHost: mainframe-uat.internal
 
-#vault:
-#  path: order-service/uat
-#  refreshInterval: 1h
+vault:
+  useESO: false
+  deploy: false
+  host: vault
+  port: 8200
+  path: order-service/uat
+  mountPath: myapp/secret
+  token: myroot                  # uat token
+  refreshInterval: 1h
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  cpuThreshold: 70
 
 resources:
   requests:
