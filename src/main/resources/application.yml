@@ -12,7 +12,7 @@ spring:
       token: ${VAULT_TOKEN:myroot}
       kv:
         enabled: true
-        backend: ${VAULT_MOUNT_PATH:myapp/secret}   # correct mount
+#        backend: ${VAULT_MOUNT_PATH:myapp/secret}   # correct mount
 #        application-name: order-service/dev
 #        default-context: ${VAULT_PATH:order-service}
 #        profiles:
@@ -21,7 +21,7 @@ spring:
       read-timeout: 15000
       fail-fast: false                # don't fail if Vault unreachable locally
   config:
-    import: "optional:vault://${VAULT_PATH:order-service/dev}"      # optional so local dev works without Vault
+    import: "optional:vault://${VAULT_FULL_PATH:myapp/secret/order-service/dev}"
 
 server:
   port: 8080
