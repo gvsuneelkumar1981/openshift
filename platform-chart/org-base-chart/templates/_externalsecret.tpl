@@ -25,15 +25,15 @@ spec:
   data:
   - secretKey: DB_PASSWORD
     remoteRef:
-      key: {{ .Values.vault.path }}/credentials
+      key: {{ .Values.vault.path }}
       property: db_password
   - secretKey: MQ_PASSWORD
     remoteRef:
-      key: {{ .Values.vault.path }}/credentials
+      key: {{ .Values.vault.path }}
       property: mq_password
   - secretKey: API_KEY
     remoteRef:
-      key: {{ .Values.vault.path }}/credentials
+      key: {{ .Values.vault.path }}
       property: api_key
 {{- end }}
 {{- end }}

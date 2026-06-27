@@ -49,9 +49,10 @@ spec:
             name: {{ .Values.app.name }}-config
 
         # Inject Secret from Vault via ESO
+        {{- if .Values.vault.useESO }}
         - secretRef:
             name: {{ .Values.app.name }}-secret
-
+        {{- end }}
         # Standard env vars every service must have
         env:
         - name: SPRING_PROFILES_ACTIVE

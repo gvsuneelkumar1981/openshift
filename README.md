@@ -1,4 +1,50 @@
 # openshift
+✅ Vault running in OCP
+✅ Secrets stored per environment
+myapp/secret/order-service/dev
+myapp/secret/order-service/uat
+myapp/secret/order-service/prod
+
+✅ Spring Cloud Vault integration
+Reads secrets at startup
+No hardcoded passwords
+
+✅ Helm deployment per environment
+dev  → db_password: dev*** ✅
+uat  → db_password: uat*** ✅
+prod → db_password: pro*** ✅
+
+✅ Platform base chart (org-base-chart)
+Library chart with standards
+Teams only write values files
+
+✅ Token injection via --set
+Pipeline pattern for prod token
+
+Complete Journey Summary
+Week 1:
+✅ Interview prep — architect concepts
+✅ Mock interview with feedback
+✅ AI concepts — LangChain, Agents
+
+Week 2:
+✅ Spring Boot WebFlux + Actuator
+✅ Dockerfile multi-stage build
+✅ OCP deployment via GitHub
+✅ ConfigMaps and Secrets
+✅ Helm chart from scratch
+✅ Dev/UAT/Prod environment separation
+✅ Rollback demonstration
+
+Week 3 (Today):
+✅ Platform base chart (library chart)
+✅ HashiCorp Vault in OCP
+✅ Spring Cloud Vault integration
+✅ Secrets per environment from Vault
+✅ Token injection via pipeline pattern
+
+
+
 
 Without Spring Cloud Vault:
 App starts → reads application.yml → properties loaded
@@ -127,6 +173,19 @@ export APP_URL=$(oc get route order-service \
 
 curl http://$APP_URL/vault-test
 curl http://$APP_URL/actuator/health
+curl http://$APP_URL/config
 
 Finding ENV vars:
 oc exec deploy/order-service -- env | grep VAULT
+
+
+helm upgrade order-service . \
+-f values-uat.yaml \
+-n gvsuneelkumar1981-dev
+
+
+helm upgrade order-service . \
+-f values-prod.yaml \
+--set vault.token=myroot \
+-n gvsuneelkumar1981-dev
+
