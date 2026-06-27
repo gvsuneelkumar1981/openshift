@@ -24,5 +24,5 @@ data:
   VAULT_SERVER_PORT: {{ .Values.vault.port | default "8200" | quote }}
   VAULT_PATH: {{ .Values.vault.path | default "order-service/dev" }}
   VAULT_MOUNT_PATH: {{ .Values.vault.mountPath | default "myapp/secret" }}
-  VAULT_PATH: {{ .Values.vault.mountPath }}/{{ .Values.vault.path }}
+
 {{- end }}

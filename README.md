@@ -53,17 +53,19 @@ export VAULT_TOKEN='myroot'
 
 # Verify Vault is ready
 vault status
+vault secrets enable -path=myapp/secret kv-v2
 
-
-vault kv get myapp/secret/order-service/dev/credentials
-vault kv get myapp/secret/order-service/uat/credentials
-vault kv get myapp/secret/order-service/prod/credentials
+vault kv get myapp/secret/order-service/dev 
+vault kv get myapp/secret/order-service/uat
+vault kv get myapp/secret/order-service/prod
 
 
 export VAULT_HOST=localhost
 export VAULT_TOKEN=myroot
 export VAULT_PATH=myapp/secret/order-service/dev
 
+
+Local:
 mvn clean install
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
@@ -95,4 +97,14 @@ helm uninstall order-service -n gvsuneelkumar1981-dev
 # Reinstall with fix
 helm upgrade --install order-service . \
 -f values-dev.yaml \
--n gvsuneelkumar1981-dev
+-n gvsuneelkumar1981-dev --force
+
+
+oc rollout restart deployment/order-service
+
+export APP_URL=$(oc get route order-service \
+--template='{{ .spec.host }}')
+
+
+curl http://$APP_URL/vault-test
+curl http://$APP_URL/actuator/health

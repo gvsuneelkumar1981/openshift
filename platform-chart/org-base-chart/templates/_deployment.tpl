@@ -31,9 +31,9 @@ spec:
         checksum/config: {{ include "base.configmap" . | sha256sum }}
     spec:
       # Enforce non-root — org security standard
-      securityContext:
-        runAsNonRoot: true
-        hostUsers: false
+{{/*      securityContext:*/}}
+{{/*        runAsNonRoot: true*/}}
+{{/*        hostUsers: false*/}}
 {{/*        runAsUser: 1014940000*/}}
 {{/*        runAsGroup: 1014940000*/}}
 
