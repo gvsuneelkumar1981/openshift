@@ -62,7 +62,8 @@ vault kv get myapp/secret/order-service/prod
 
 export VAULT_HOST=localhost
 export VAULT_TOKEN=myroot
-export VAULT_PATH=myapp/secret/order-service/dev
+export VAULT_MOUNT_PATH=myapp/secret
+export VAULT_PATH=order-service/dev
 
 
 Local:
@@ -74,6 +75,24 @@ Not able to view the creds:
 check what exact path stored:
 curl http://localhost:8200/v1/myapp/secret/data/order-service/dev \
 -H "X-Vault-Token: myroot"
+
+Building & Deoploying to OCP:
+=============================
+oc new-app openshift/java:latest~https://github.com/gvsuneelkumar1981/openshift.git \
+--name=order-service
+# Watch build
+oc logs -f buildconfig/order-service
+
+# For rebuilds
+For rebuilds:
+# Start new build
+oc start-build order-service --follow
+oc logs -f buildconfig/order-service
+
+# Delete only deployment and svc, so that we install freshly form helm
+oc delete deployment order-service
+oc delete svc order-service
+
 
 
 oc port-forward svc/vault 8200:8200
@@ -108,3 +127,6 @@ export APP_URL=$(oc get route order-service \
 
 curl http://$APP_URL/vault-test
 curl http://$APP_URL/actuator/health
+
+Finding ENV vars:
+oc exec deploy/order-service -- env | grep VAULT

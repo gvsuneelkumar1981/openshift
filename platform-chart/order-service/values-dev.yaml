@@ -21,7 +21,6 @@ vault:
 
 hpa:
   enabled: false
-
 resources:
   requests:
     memory: 256Mi
