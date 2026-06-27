@@ -33,8 +33,9 @@ spec:
       # Enforce non-root — org security standard
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1001
-        fsGroup: 1001
+        hostUsers: false
+{{/*        runAsUser: 1014940000*/}}
+{{/*        runAsGroup: 1014940000*/}}
 
       containers:
       - name: {{ .Values.app.name }}

@@ -75,3 +75,24 @@ curl http://localhost:8200/v1/myapp/secret/data/order-service/dev \
 
 
 oc port-forward svc/vault 8200:8200
+
+curl http://localhost:8080/vault-test
+
+oc get route order-service
+NAME            HOST/PORT                                                                PATH   SERVICES        PORT       TERMINATION   WILDCARD
+order-service   order-service-gvsuneelkumar1981-dev.apps.rm1.0a51.p1.openshiftapps.com          order-service   8080-tcp                 None
+
+
+Delete the deployment/svc/route created from git build
+oc delete deployment order-service
+oc delete svc order-service
+oc delete route order-service
+
+Lets try from helm :
+# Uninstall with fix
+helm uninstall order-service -n gvsuneelkumar1981-dev
+
+# Reinstall with fix
+helm upgrade --install order-service . \
+-f values-dev.yaml \
+-n gvsuneelkumar1981-dev
