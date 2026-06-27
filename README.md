@@ -58,3 +58,20 @@ vault status
 vault kv get myapp/secret/order-service/dev/credentials
 vault kv get myapp/secret/order-service/uat/credentials
 vault kv get myapp/secret/order-service/prod/credentials
+
+
+export VAULT_HOST=localhost
+export VAULT_TOKEN=myroot
+export VAULT_PATH=myapp/secret/order-service/dev
+
+mvn clean install
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+Not able to view the creds:
+
+check what exact path stored:
+curl http://localhost:8200/v1/myapp/secret/data/order-service/dev \
+-H "X-Vault-Token: myroot"
+
+
+oc port-forward svc/vault 8200:8200
